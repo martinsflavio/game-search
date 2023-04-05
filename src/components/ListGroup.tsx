@@ -1,13 +1,35 @@
-function ListGroup() {
-    return(
-        <ul className="list-group">
-            <li className="list-group-item">An item</li>
-            <li className="list-group-item">A second item</li>
-            <li className="list-group-item">A third item</li>
-            <li className="list-group-item">A fourth item</li>
-            <li className="list-group-item">And a fifth one</li>
-        </ul>
-    )
+import {useState} from "react";
+
+interface ListProps {
+  buttonColor: string[];
+  heading: string;
+  onButtonColorSelect: (i:string) => void;
+}
+
+function ListGroup({buttonColor, heading, onButtonColorSelect}: ListProps) {
+  let [selectedIndex, setSelectedIndex] = useState(-1);
+
+  return(
+    <>
+      <h1>{heading}</h1>
+      <ul className='list-group'>
+        {buttonColor.map((selectedColor, index) => (
+          <li
+            className={
+            selectedIndex !== index
+              ? 'list-group-item'
+              : 'list-group-item active'
+          }
+            key={index}
+            onClick={() => {
+              setSelectedIndex(index);
+              onButtonColorSelect(selectedColor);
+            }}
+          >{ selectedColor }</li>
+        ))}
+      </ul>
+    </>
+  )
 }
 
 export default ListGroup;
